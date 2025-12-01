@@ -124,7 +124,7 @@ class TestSphericalDegreeAnalysis:
         assert "p_value" in result
         assert "significant" in result
         # Check boolean value (numpy bool or Python bool)
-        assert result["significant"] in (True, False)
+        assert isinstance(result["significant"], (bool, np.bool_))
     
     def test_fit_linewidth_frequency_relation(self, sample_data):
         """Test power-law fit."""
