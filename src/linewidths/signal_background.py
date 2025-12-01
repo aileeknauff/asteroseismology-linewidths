@@ -6,6 +6,8 @@ ratio in stellar power spectra, essential for asteroseismology analysis.
 """
 
 import numpy as np
+from scipy.ndimage import uniform_filter1d
+from scipy.optimize import curve_fit
 from typing import Optional, Tuple
 
 
@@ -66,9 +68,6 @@ def _smooth_background(
     np.ndarray
         Smoothed background estimate
     """
-    # Use uniform filter for smoothing
-    from scipy.ndimage import uniform_filter1d
-    
     # Work in log space for better handling of dynamic range
     log_power = np.log10(power + 1e-10)
     smoothed = uniform_filter1d(log_power, size=window_size, mode="reflect")
@@ -98,8 +97,6 @@ def _harvey_background(
     np.ndarray
         Harvey model background estimate
     """
-    from scipy.optimize import curve_fit
-    
     def harvey_model(nu, a1, b1, a2, b2, white):
         """Two-component Harvey model with white noise."""
         # Avoid division by zero
@@ -234,8 +231,6 @@ def identify_oscillation_envelope(
     tuple
         (nu_max, envelope_width, amplitude)
     """
-    from scipy.optimize import curve_fit
-    
     frequency = np.asarray(frequency)
     power = np.asarray(power)
     
@@ -244,7 +239,6 @@ def identify_oscillation_envelope(
     signal = np.maximum(power - background, 0)
     
     # Smooth the signal
-    from scipy.ndimage import uniform_filter1d
     smoothed = uniform_filter1d(signal, size=20)
     
     # Initial guess for nu_max from maximum power

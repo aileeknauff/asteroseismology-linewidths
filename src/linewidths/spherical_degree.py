@@ -6,6 +6,7 @@ linewidths on spherical degree (l) in asteroseismology data.
 """
 
 import numpy as np
+from scipy import stats, optimize
 from typing import Optional, Dict, List, Tuple
 
 
@@ -105,8 +106,6 @@ class SphericalDegreeAnalysis:
         dict
             Dictionary containing F-statistic and p-value.
         """
-        from scipy import stats
-        
         grouped = self.group_by_degree()
         groups = [data["linewidths"] for data in grouped.values()]
         
@@ -142,8 +141,6 @@ class SphericalDegreeAnalysis:
         dict
             Fitted parameters a (amplitude) and b (exponent).
         """
-        from scipy import optimize
-        
         if degree is not None:
             mask = self.degrees == degree
             freq = self.frequencies[mask]
@@ -192,8 +189,6 @@ class SphericalDegreeAnalysis:
         dict
             Dictionary containing t-statistic, p-value, and mean difference.
         """
-        from scipy import stats
-        
         grouped = self.group_by_degree()
         
         if degree1 not in grouped or degree2 not in grouped:

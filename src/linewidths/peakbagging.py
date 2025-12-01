@@ -6,6 +6,7 @@ parameters, including frequencies, linewidths, and amplitudes.
 """
 
 import numpy as np
+from scipy.signal import find_peaks as scipy_find_peaks
 from typing import Optional, Dict, List, Tuple, Union
 
 
@@ -208,8 +209,6 @@ class BayesianPeakbagger:
         list
             List of dictionaries with initial mode parameters
         """
-        from scipy.signal import find_peaks as scipy_find_peaks
-        
         # Calculate signal-to-noise ratio
         snr = (self.power - self.background) / self.background
         
